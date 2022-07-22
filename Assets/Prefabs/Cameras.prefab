@@ -908,7 +908,6 @@ GameObject:
   - component: {fileID: 5283149634754594846}
   - component: {fileID: 5283149634754594841}
   - component: {fileID: 5283149634754594840}
-  - component: {fileID: 5283149634754594847}
   - component: {fileID: 5283149634754594844}
   - component: {fileID: 1258631763412227065}
   m_Layer: 0
@@ -984,21 +983,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5283149634754594843}
   m_Enabled: 1
---- !u!114 &5283149634754594847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5283149634754594843}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45ac96b25422b43e7a5e5c770ba4b3b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  katamari: {fileID: 0}
-  followDistance: 10
-  cameraHeight: 3
 --- !u!114 &5283149634754594844
 MonoBehaviour:
   m_ObjectHideFlags: 0

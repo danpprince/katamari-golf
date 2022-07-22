@@ -8,6 +8,9 @@ public class FollowKatamari : MonoBehaviour
 
     public float followDistance;
     public float cameraHeight;
+    [System.NonSerialized]
+    public Vector3 originalPosition;
+    public Quaternion originalRotation;
 
     private KatamariMovement movement;
 
@@ -15,6 +18,8 @@ public class FollowKatamari : MonoBehaviour
     void Start()
     {
         movement = katamari.GetComponent<KatamariMovement>();
+        originalPosition = transform.position;
+        originalRotation = transform.rotation;
     }
 
     // Update is called once per frame

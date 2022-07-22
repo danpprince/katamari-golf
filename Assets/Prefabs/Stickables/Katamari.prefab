@@ -225,6 +225,8 @@ MonoBehaviour:
   slowdownFactor: 0.1
   slowdownLength: 1
   timeToStop: 5
+  originalPosition: {x: 0, y: 0, z: 0}
+  originalRotation: {x: 0, y: 0, z: 0, w: 0}
   _camera: {fileID: 0}
   arrow: {fileID: 6481121269830480139}
 --- !u!114 &8453875387259748974
@@ -239,9 +241,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffb4351f929eed47b25df1829a1ad75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialFuel: 1000
+  initialFuel: 500
   timeBetweenHits: 5
-  k_move: {fileID: 0}
+  k_move: {fileID: 8453875387259748961}
+  EndOfLevel: {fileID: 0}
   strokeCount: 0
   resourceText: {fileID: 0}
 --- !u!120 &8342835830873079450

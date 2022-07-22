@@ -11,7 +11,9 @@ public class ResourceManager : MonoBehaviour
     private float fuelRemaining, massCollected, timeElapsedSec, lastHitTimeSec;
     private float timeBetweenHits = 5.0f;
     public KatamariMovement k_move;
+    public LoadLevelOnCollision EndOfLevel;
     public int strokeCount;
+   
 
     public Text resourceText;
 
@@ -21,6 +23,7 @@ public class ResourceManager : MonoBehaviour
         // Initialize so a hit can be performed at the start
         lastHitTimeSec = Time.time - timeBetweenHits;
         strokeCount = 0;
+
         
     }
 
@@ -33,20 +36,24 @@ public class ResourceManager : MonoBehaviour
 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
         }
-        
+
     }
 
     void UpdateUI()
     {
-        resourceText.text =
-            "Fuel remaining: " + fuelRemaining + "\n"
-            + "Mass collected: " + massCollected + "\n"
-            + "Time elapsed: " + timeElapsedSec.ToString("0.0") + "\n"
-            + "Time since last hit: " + GetTimeSinceLastHit().ToString("0.0") + "\n"
-            + "Current State: " + k_move.movementState + "\n"
-            + "RB constraints: " + k_move.GetRigidbodyConstraints() + "\n"
-            + "Hit input: " + Input.GetAxis("Jump") + "\n"
-            + "Strokes: " + strokeCount;
+        if (!EndOfLevel.isAtEndOfLevel)
+        {
+            resourceText.text =
+                  "Fuel remaining: " + fuelRemaining + "\n"
+                + "Mass collected: " + massCollected + "\n"
+                + "Time elapsed: " + timeElapsedSec.ToString("0.0") + "\n"
+                + "Time since last hit: " + GetTimeSinceLastHit().ToString("0.0") + "\n"
+                + "Current State: " + k_move.movementState + "\n"
+                + "Strokes: " + strokeCount;
+        } else
+        {
+            resourceText.text = "TEST SUCCESS";
+        }
     }
 
     public float UseFuel(float amountRequested) 

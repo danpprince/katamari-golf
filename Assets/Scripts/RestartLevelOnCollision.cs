@@ -7,11 +7,23 @@ public class RestartLevelOnCollision : MonoBehaviour
 {
     [SerializeField]
     string strTag;
-
-    // Restart Scene on Collision
-    private void OnCollisionEnter(Collision collision)
+    public GameObject katamari;
+    private bool shouldRestart = false;
+    private string capturedTag = "";
+    private KatamariMovement km;
+    private Rigidbody rb;
+    
+    private void Update()
     {
-        if (collision.collider.tag == strTag)
+        if (capturedTag == strTag && shouldRestart)
+        {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
+
+    private void OnTriggerExit(Collider collider)
+    {
+        capturedTag = collider.tag;
+        shouldRestart = true;
     }
 }

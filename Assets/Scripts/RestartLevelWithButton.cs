@@ -12,6 +12,9 @@ public class RestartLevelWithButton : MonoBehaviour
     void Update()
     {
         if (Input.GetKey(keyRestart))
+        {
+            Time.timeScale = 1;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 }

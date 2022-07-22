@@ -17,7 +17,8 @@ public static class FlyingConstants
 public class KatamariMovement : MonoBehaviour
 {
     public float movementSpeed = 1;
-    public float rotationSpeed = 1;
+    private float horizontalRotationSpeed = 3;
+    private float verticalRotationSpeed = 3;
     [System.NonSerialized]
     public Quaternion heading;
     public float strikeStrength = 100;
@@ -60,8 +61,11 @@ public class KatamariMovement : MonoBehaviour
     public float slowdownLength = 1f;
 
     //for Collision Stuff\\
-    private float timeOnGround = 0;
+    [System.NonSerialized]
+    public float timeOnGround = 0;
     public float timeToStop = 5;
+    public Vector3 originalPosition;
+    public Quaternion originalRotation;
 
     //for determing where to point the "heading"
     public GameObject _camera;
@@ -75,6 +79,9 @@ public class KatamariMovement : MonoBehaviour
 
         Vector3 initialRotation = transform.rotation.eulerAngles;
         heading = Quaternion.Euler(0, transform.rotation.y, 0);
+
+        originalPosition = transform.position;
+        originalRotation = transform.rotation.normalized;
 
         stuckObjects = new Queue<GameObject>();
 
@@ -106,24 +113,30 @@ public class KatamariMovement : MonoBehaviour
 
         // increment the vertical angle in chunks
         angle_timer += Time.unscaledDeltaTime;
-        if (verticalInput > 0.5 && angle_timer >= 0.25)
+        if (movementState == StateMachine.golfMode)
         {
-            hitXAngle += 20;
-            angle_timer = 0;
-        }
+            if (verticalInput > 0.5 && angle_timer >= 0.25)
+            {
+                hitXAngle += 20;
+                angle_timer = 0;
+            }
 
-        if (verticalInput < -0.5 && angle_timer >= 0.25)
-        {
-            hitXAngle -= 20;
-            angle_timer = 0;
+            if (verticalInput < -0.5 && angle_timer >= 0.25)
+            {
+                hitXAngle -= 20;
+                angle_timer = 0;
+            }
         }
-        
+        else if (movementState == StateMachine.slowMotion)
+        {
+            hitXAngle += verticalInput * verticalRotationSpeed;
+        }
         slowMixer.SetFloat("Pitch", Time.timeScale);
     }
 
-    private void FixedUpdate()
+        private void FixedUpdate()
     {
-        float yRotation = horizontalInput * rotationSpeed;
+        float yRotation = horizontalInput * horizontalRotationSpeed;
         Vector3 rotation = new Vector3(0, yRotation, 0);
         transform.Rotate(rotation, Space.World);
 
@@ -168,6 +181,7 @@ public class KatamariMovement : MonoBehaviour
     public Vector3 CalculateHitVector(float accelerateFuelUsed)
     {
         float strength;
+        
 
         if (IsGolfHitMode())
         {
@@ -175,7 +189,7 @@ public class KatamariMovement : MonoBehaviour
         }
         else
         {
-            strength = flyStrength;
+            strength = flyStrength/Time.timeScale;
         }
 
         Quaternion hitAngle = heading * Quaternion.Euler(-1 * hitXAngle, 0, 0);
@@ -408,7 +422,7 @@ public class KatamariMovement : MonoBehaviour
 
             case StateMachine.slowDown:
                 DecreaseTimeScale();
-
+                
                 if (Time.timeScale == slowdownFactor)
                 {
                     movementState = StateMachine.slowMotion;
